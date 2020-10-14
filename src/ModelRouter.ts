@@ -75,7 +75,13 @@ export class RouterModes {
  * @return
  */
 export function getModelPath(url?: string | null): string {
-    const localUrl = url || window.location.pathname;
+    let localUrl = url || window.location.pathname;
+    
+    const config = { vanityPrefix: '/shop/recipes/', pathPrefix: '/content/woolworths-foodhub/en/'};
+    if (config && config.vanityPrefix && config.pathPrefix && localUrl.startsWith(config.vanityPrefix)) {
+        localUrl = localUrl.replace(config.vanityPrefix, config.pathPrefix)
+    }
+
 
     // The default value model path comes as the the content path
     let endPosition = localUrl.indexOf('.');

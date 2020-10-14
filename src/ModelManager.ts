@@ -52,6 +52,8 @@ export interface ModelManagerConfiguration {
     model?: Model;
     modelClient?: ModelClient;
     path?: string;
+    pathPrefix?: string;
+    vanityPrefix?: string;
 }
 
 interface ModelPaths {
@@ -226,8 +228,14 @@ export class ModelManager {
 
         const aemApiHost = this.modelClient.apiHost;
         const isRemoteApp = PathUtils.isBrowser() && aemApiHost && (PathUtils.getCurrentURL() !== aemApiHost);
-        const currentPathname = !isRemoteApp ? PathUtils.getCurrentPathname() : '';
+        let currentPathname = !isRemoteApp ? PathUtils.getCurrentPathname() : '';
         // For remote apps in edit mode, to fetch path via parent URL
+
+        if (currentPathname && currentPathname !== '') {
+            if (config && config.vanityPrefix && config.pathPrefix && currentPathname.startsWith(config.vanityPrefix)) {
+                currentPathname = currentPathname.replace(config.vanityPrefix, config.pathPrefix) + '.html'
+            }
+        }
 
         const sanitizedCurrentPathname = ((currentPathname && PathUtils.sanitize(currentPathname)) || '') as string;
 

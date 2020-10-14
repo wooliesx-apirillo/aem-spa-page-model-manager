@@ -70,7 +70,7 @@ describe('ModelManager ->', () => {
         modelClient = instance(ModelClientMock);
         jest.spyOn(PathUtils, 'getMetaPropertyValue').mockImplementation((val) => metaProps[val]);
         jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent');
-        jest.spyOn(PathUtils, 'getCurrentPathname').mockImplementation(() => pathName);
+        jest.spyOn(PathUtils, 'getCurrentOrVanityPathname').mockImplementation(() => pathName);
         mockTheFetch(PAGE_MODEL_URL, PAGE_MODEL);
     });
 

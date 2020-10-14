@@ -77,7 +77,7 @@ export class PathUtils {
             return '';
         }
 
-        const localPath = PathUtils.internalize(path);
+        const localPath = PathUtils.internalize(path, '/shop/recipes/', '/content/woolworths-foodhub/en/');
 
         if (!rootPath) {
             return localPath;
@@ -93,7 +93,11 @@ export class PathUtils {
      * @param url URL to externalize.
      * @returns
      */
-    public static externalize(url: string): string {
+    public static externalize(url: string, vanityPrefix?: string, pathPrefix?: string): string {
+        // shop/recipes/chicken.model.json => content/woolworths-foodhub/en/chicken.model.json
+        if (vanityPrefix && pathPrefix && url.startsWith(vanityPrefix)) {
+            url = url.replace(vanityPrefix, pathPrefix)
+        }
         const contextPath = this.getContextPath();
         const externalizedPath = url.startsWith(contextPath) ? url : `${contextPath}${url}`;
 
@@ -105,9 +109,14 @@ export class PathUtils {
      * @param url URL to internalize.
      * @returns
      */
-    public static internalize(url: string | null): string {
+    public static internalize(url: string | null, vanityPrefix?: string, pathPrefix?: string): string {
         if (!url || (typeof url !== 'string')) {
             return '';
+        }
+
+        //  shop/recipes/chicken => content/woolworths-foodhub/en/chicken.html
+        if (vanityPrefix && pathPrefix && url.startsWith(vanityPrefix)) {
+            url = url.replace(vanityPrefix, pathPrefix) + '.html';
         }
 
         const contextPath = this.getContextPath();
@@ -199,7 +208,7 @@ export class PathUtils {
 
         // Remove context path (if it exists)
         if (sanitizedPath) {
-            sanitizedPath = this.internalize(sanitizedPath);
+            sanitizedPath = this.internalize(sanitizedPath, '/shop/recipes/', '/content/woolworths-foodhub/en/');
 
             // Remove selectors (if they exist)
             const selectorIndex = sanitizedPath.indexOf('.');

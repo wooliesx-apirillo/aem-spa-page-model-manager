@@ -22,10 +22,10 @@
   "main": "dist/aem-spa-page-model-manager.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "build:production": "NODE_ENV=production npm run build",
+    "build:production": "set NODE_ENV=production && npm run build",
     "build:types": "tsc -p src/tsconfig.types.json",
     "build": "npm run clean && npm run linter && webpack && npm run build:types",
-    "clean": "rm -rf dist/",
+    "clean": "",
     "docs": "npm i && npx typedoc --excludePrivate ./src --out ./dist/docs --mode file",
     "linter": "eslint .",
     "semantic-release": "semantic-release",

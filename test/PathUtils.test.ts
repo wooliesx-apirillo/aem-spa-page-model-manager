@@ -23,7 +23,7 @@ describe('PathUtils ->', () => {
 
     beforeAll(() => {
         metaPropSpy = jest.spyOn(PathUtils, 'getMetaPropertyValue').mockImplementation((key) => metaProps[key]);
-        pathNameSpy = jest.spyOn(PathUtils, 'getCurrentPathname').mockImplementation(() => currentPathName);
+        pathNameSpy = jest.spyOn(PathUtils, 'getCurrentOrVanityPathname').mockImplementation(() => currentPathName);
     });
 
     beforeEach(() => {
